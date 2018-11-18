@@ -5,88 +5,237 @@ class Program
 
     static void Main()
     {
-        // TODO : keiskite FROM..TO skaicius pagal tai kiek spesite padaryt uzduociu. (-19...19, -99..99, ir tt.)
-        // min skaicius 
-        const int FROM_NUMBER = -9;
-        // max skaicius 
-        const int TO_NUMBER = 9;
+        string enteredNumberString;
 
-        string inputString = "";
-        int inputNumber = 0;
+        Console.WriteLine("Iveskite skaiciu nuo -19 iki 19: \n");
+        enteredNumberString = Console.ReadLine();
 
-        Console.Write("Sveiki!");
-        while (inputString != " ")
-        {
-            Console.Write("\n(Enter SPACE to exit.)\nIveskite skaiciu:");
-            inputString = Console.ReadLine();
-            if (checkIfGoodNumber(inputString))
-            {
-                Console.WriteLine("Skaicius teisingas!");
-                inputNumber = Convert.ToInt32(inputString);
-                if (checkIfNumberInRange(FROM_NUMBER, TO_NUMBER, inputNumber))
-                {
-                    Console.WriteLine("Skaicius {0} zodziais: {1}", inputNumber, changeNumberToText(inputNumber));
-                }
-                else
-                {
-                    Console.WriteLine("Blogas skaicius {0}, prasau ivesti skaiciu reziuose: {1}..{2}", inputString, FROM_NUMBER, TO_NUMBER);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Ivesti duomenys:{0} nera skaicius!", inputString);
-            }
-        }
+        CheckIfEnteredTextIsNumber(enteredNumberString);
+        ConvertAndCheckRange(enteredNumberString);
 
-        Console.WriteLine("\nAciu uz demesi, viso gero.");
         Console.ReadKey();
     }
 
-    // bendra funkcija apjungti visom funkcijom kurias jus sukursit.
-    static string changeNumberToText(int number)
+    static bool CheckIfEnteredTextIsNumber(string enteredNumberString)
     {
-        // TODO : pakeiskite sita funkcija pagal savo poreiki. (tiek kiek skaiciu spesite apdorot.)
-        return changeOnesToText(number);
+        if (Int32.TryParse(enteredNumberString, out int number))
+        {
+
+            Console.WriteLine("Ivestas skaicius: " + number);
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Ivestas ne skaicius");
+            return false;
+        }
     }
 
-    // funkcija gauna string skaiciu, patikrina ar skaicius teisingu formatu. Pvz: "123", "-123" grazina true. "12a3", "1-23" grazina false.
-    static bool checkIfGoodNumber(string dataToCheck)
+    static void ConvertAndCheckRange(string enteredNumberString)
     {
-        throw new NotImplementedException("TODO: grazinkite true, jei tekstas yra teisingas skaicius.");
+        if (Int32.TryParse(enteredNumberString, out int stringToNumber))
+        {
+
+            if (stringToNumber >= -19 && stringToNumber <= 19)
+            {
+                Console.WriteLine("Skaicius " + stringToNumber + " atitinka nurodytus rezius");
+
+                string numberToWord;
+                if (stringToNumber >= -9 && stringToNumber <= 9)
+                {
+                    numberToWord = ChangeOnesToText(stringToNumber);
+                }
+                else
+                {
+                    numberToWord = ChangeTensToText(stringToNumber);
+                }
+
+
+                Console.WriteLine("Ivestas skaicius " + stringToNumber + " zodziais yra: " + numberToWord);
+
+            }
+            else
+            {
+                Console.WriteLine("Ivestas skaicius neatitinka reziu.");
+            }
+
+        }
+        else
+        {
+            Console.WriteLine("Ivestas ne skaicius, negalima konvertuoti.");
+
+        }
     }
 
-    // funkcija gauna true jei skaicius checkNumber yar tarp fromNumber ir toNumber (imtinai)
-    private static bool checkIfNumberInRange(int fromNumber, int toNumber, int checkNumber)
+    static string ChangeOnesToText(int stringToNumber)
     {
-        throw new NotImplementedException("TODO: Patikrinkite ar checkNumber yar tarp skaiciu fromNumber,  toNumber");
+
+        string numberToWords = "";
+        string minus = "Minus";
+        string firstSymbol = stringToNumber.ToString().Substring(0, 1);
+
+        if (firstSymbol != "-")
+        {
+
+            switch (stringToNumber)
+            {
+                case 0:
+                    numberToWords = "Nulis";
+                    break;
+                case 1:
+                    numberToWords = "Vienas";
+                    break;
+                case 2:
+                    numberToWords = "Du";
+                    break;
+                case 3:
+                    numberToWords = "Trys";
+                    break;
+                case 4:
+                    numberToWords = "Keturi";
+                    break;
+                case 5:
+                    numberToWords = "Penki";
+                    break;
+                case 6:
+                    numberToWords = "Sesi";
+                    break;
+                case 7:
+                    numberToWords = "Septyni";
+                    break;
+                case 8:
+                    numberToWords = "Astuoni";
+                    break;
+                case 9:
+                    numberToWords = "Devyni";
+                    break;
+
+            }
+        }
+        else
+        {
+            switch (stringToNumber)
+            {
+                case -0:
+                    numberToWords = String.Concat(minus, " ", "nulis");
+                    break;
+                case -1:
+                    numberToWords = String.Concat(minus, " ", "vienas");
+                    break;
+                case -2:
+                    numberToWords = String.Concat(minus, " ", "du");
+                    break;
+                case -3:
+                    numberToWords = String.Concat(minus, " ", "trys");
+                    break;
+                case -4:
+                    numberToWords = String.Concat(minus, " ", "keturi");
+                    break;
+                case -5:
+                    numberToWords = String.Concat(minus, " ", "penki");
+                    break;
+                case -6:
+                    numberToWords = String.Concat(minus, " ", "sesi");
+                    break;
+                case -7:
+                    numberToWords = String.Concat(minus, " ", "septyni");
+                    break;
+                case -8:
+                    numberToWords = String.Concat(minus, " ", "astuoni");
+                    break;
+                case -9:
+                    numberToWords = String.Concat(minus, " ", "devyni");
+                    break;
+
+            }
+        }
+        return numberToWords;
     }
 
-    // funkcija gauna int skaiciu, pakeicia ji i string teksta kuri zodziais nusako skaiciu. PVZ: -1684542 turi grazint - "minus vienas milijonas sesi simtai astuoniasdesimt keturi tukstanciai penki simtai keturiasdiasimt du"
-    static string changeOnesToText(int number)
+
+    static string ChangeTensToText(int stringToNumber)
     {
-        throw new NotImplementedException("TODO: grazinkite skaiciu -9...9 zodziais.");
+        string numberToWords = "";
+        string minus = "Minus";
+        string firstSymbol = stringToNumber.ToString().Substring(0, 1);
+
+        if (firstSymbol != "-")
+        {
+
+            switch (stringToNumber)
+            {
+                case 10:
+                    numberToWords = "Desimt";
+                    break;
+                case 11:
+                    numberToWords = "Vienuolika";
+                    break;
+                case 12:
+                    numberToWords = "Dvylika";
+                    break;
+                case 13:
+                    numberToWords = "Trylika";
+                    break;
+                case 14:
+                    numberToWords = "Keturiolika";
+                    break;
+                case 15:
+                    numberToWords = "Penkiolika";
+                    break;
+                case 16:
+                    numberToWords = "Sesiolika";
+                    break;
+                case 17:
+                    numberToWords = "Septyniolika";
+                    break;
+                case 18:
+                    numberToWords = "Astuoniolika";
+                    break;
+                case 19:
+                    numberToWords = "Devyniolika";
+                    break;
+            }
+
+            return numberToWords;
+
+        }
+        else
+        {
+            switch (stringToNumber)
+            {
+                case -10:
+                    numberToWords = String.Concat(minus, " ", "desimt");
+                    break;
+                case -11:
+                    numberToWords = String.Concat(minus, " ", "vienuolika");
+                    break;
+                case -12:
+                    numberToWords = String.Concat(minus, " ", "dvylika");
+                    break;
+                case -13:
+                    numberToWords = String.Concat(minus, " ", "trylika");
+                    break;
+                case -14:
+                    numberToWords = String.Concat(minus, " ", "keturiolika");
+                    break;
+                case -15:
+                    numberToWords = String.Concat(minus, " ", "penkiolika");
+                    break;
+                case -16:
+                    numberToWords = String.Concat(minus, " ", "sesiolika");
+                    break;
+                case -17:
+                    numberToWords = String.Concat(minus, " ", "septyniolika");
+                    break;
+                case -18:
+                    numberToWords = String.Concat(minus, " ", "astuoniolika");
+                    break;
+                case -19:
+                    numberToWords = String.Concat(minus, " ", "devyniolika");
+                    break;
+            }
+            return numberToWords;
+        }
     }
 
-    // TODO : sukurti funkcija kuri grazina skaiciu -19...19 zodziais - changeTeensToText
-
-    // TODO : sukurti funkcija kuri grazina skaiciu -99...99 zodziais - changeTensToText
-
-    // TODO : sukurti funkcija kuri grazina skaiciu -999...999 zodziais - changeHundredsToText
-
-    // TODO : sukurti funkcija kuri grazina skaiciu -9999...9999 zodziais - changeThousandsToText
-
-    // TODO : sukurti funkcija kuri grazina skaiciu -9999999...9999999 zodziais - changeMillionsToText
-
-    // TODO : sukurti funkcija kuri grazina skaiciu -9999999999...9999999999 zodziais - changeBilllionsToText
-
-
-
-    //Skaiciai zodziais:  
-    // "minus"; 
-    // "nulis", "vienas", "du", "trys", "keturi", "penki", "sesi", "septyni", "astuoni", "devyni"; 
-    // "desimt", "vienualika", "dvylika", "trylika", "keturiolika", "penkiolika", "sesiolika", "septyniolika", "astuoniolika", "devyniolika"; 
-    // "dvidesimt", "trisdesimt", "keturiasdesimt", "penkiasdesimt", "sesiasdesimt", "septyniasdesimt", "astuoniasdesimt", "devyniasdesimt"; 
-    // "simtas", "tukstantis", "milijonas", "milijardas"; 
-    // "simtai", "tukstanciai", "milijonai", "milijardai"; 
-    // "simtu", "tukstanciu", "milijonu", "milijardu"; 
 }
