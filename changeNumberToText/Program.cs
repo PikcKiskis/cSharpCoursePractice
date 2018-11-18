@@ -22,7 +22,7 @@ class Program
         if (Int32.TryParse(enteredNumberString, out int number))
         {
             
-            Console.WriteLine("Ivestas skaicius." + number);
+            Console.WriteLine("Ivestas skaicius" + number);
             return true;
         }
         else
@@ -39,7 +39,7 @@ class Program
      
             if (stringToNumber >= -9 && stringToNumber <= 9)
             {
-                Console.WriteLine("Test");
+                Console.WriteLine("Skaicius " + stringToNumber + "atitinka nurodytus rezius");
 
             } else {
                 Console.WriteLine("Ivestas skaicius neatitinka reziu.");
